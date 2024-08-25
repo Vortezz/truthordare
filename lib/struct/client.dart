@@ -149,8 +149,8 @@ class Client with EventEmitter {
 
     print("Loaded ${challengeCategories.length} challenge categories");
 
-    String challengesJson =
-        await rootBundle.loadString("assets/challenges/challenges.json");
+    String challengesJson = utf8.fuse(base64).decode(
+        await rootBundle.loadString("assets/challenges/challenges.txt"));
     challenges = Challenge.fromJsonList(challengesJson);
 
     print("Loaded ${challenges.length} challenges");

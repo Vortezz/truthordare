@@ -63,7 +63,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/challenges/challenges.json
+    - assets/challenges/challenges.txt
     - assets/challenges/challenge_categories.json
     - assets/lang/en.json
     - assets/lang/fr.json

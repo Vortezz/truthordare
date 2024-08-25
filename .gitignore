@@ -50,3 +50,5 @@ android/key.properties
 /web/
 /windows/
 /test/
+
+/scripts/input.csv
