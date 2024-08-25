@@ -1,0 +1,26 @@
+[
+  {
+    "id": "chill",
+    "suitableForChildren": true,
+    "icon": "🛋️",
+    "color": "#7CFC00"
+  },
+  {
+    "id": "family",
+    "suitableForChildren": true,
+    "icon": "\uD83D\uDC65",
+    "color": "#FFA07A"
+  },
+  {
+    "id": "hot",
+    "suitableForChildren": false,
+    "icon": "🥵",
+    "color": "#FF6347"
+  },
+  {
+    "id": "extreme",
+    "suitableForChildren": false,
+    "icon": "😈",
+    "color": "#FF4500"
+  }
+]
