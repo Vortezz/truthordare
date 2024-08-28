@@ -30,6 +30,7 @@ class _GamePageState extends State<GamePage> {
   int currentPlayerIndex = 0;
   Player currentPlayer = Player.getEmptyPlayer();
   bool loaded = false;
+  bool hasSeenConsentWarning = false;
   Challenge? currentChallenge;
   int currentTimer = 0;
   Timer? timer;
@@ -146,130 +147,177 @@ class _GamePageState extends State<GamePage> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: currentChallenge == null
+            colors: !hasSeenConsentWarning
                 ? <Color>[
-                    const Color(0xff6ddd78),
-                    const Color(0xff0bca19),
+                    const Color(0xffffc07b),
+                    const Color(0xffff9c00),
                   ]
-                : currentChallenge?.type == "truth"
+                : currentChallenge == null
                     ? <Color>[
-                        const Color(0xff00d4ff),
-                        const Color(0xff7c74ff),
+                        const Color(0xff6ddd78),
+                        const Color(0xff0bca19),
                       ]
-                    : <Color>[
-                        const Color(0xffff9494),
-                        const Color(0xffff0000),
-                      ],
+                    : currentChallenge?.type == "truth"
+                        ? <Color>[
+                            const Color(0xff00d4ff),
+                            const Color(0xff7c74ff),
+                          ]
+                        : <Color>[
+                            const Color(0xffff9494),
+                            const Color(0xffff0000),
+                          ],
           ),
         ),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(),
-              Text(
-                currentChallenge == null
-                    ? currentPlayer.gender.icon
-                    : currentChallenge?.type == "truth"
-                        ? "❓"
-                        : "🏃",
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 72,
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: currentChallenge == null
-                    ? CustomText(
-                        text: client.translate(
-                          "game.title",
-                          {
-                            "player": currentPlayer.name,
-                          },
-                        ),
-                        color: Colors.white,
-                        textType: TextType.subtitle,
-                        client: client,
-                      )
-                    : RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          children: formatChallenge(),
-                        ),
+          child: !hasSeenConsentWarning
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText(
+                      text: client.translate("game.consent.title"),
+                      client: client,
+                      textType: TextType.title,
+                      color: Colors.white,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                        top: 20,
                       ),
-              ),
-              currentChallenge != null
-                  ? Column(
-                      children: [
-                        Button(
-                          text: timer == null && currentTimer != 0
-                              ? client.translate("game.text.start_timer")
-                              : client.translate("game.text.next"),
-                          onPressed: timer == null && currentTimer != 0
-                              ? () {
-                                  setState(() {
-                                    timer = Timer.periodic(
-                                        const Duration(seconds: 1), (timer) {
-                                      if (currentTimer == 0) {
-                                        timer.cancel();
-                                      } else {
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: CustomText(
+                        text: client.translate("game.consent.description"),
+                        client: client,
+                        textType: TextType.text,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        bottom: 20,
+                      ),
+                      child: Button(
+                        text: client.translate("game.consent.play"),
+                        onPressed: () {
+                          setState(() {
+                            hasSeenConsentWarning = true;
+                          });
+                        },
+                        client: client,
+                        isBlack: false,
+                      ),
+                    ),
+                  ],
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(),
+                    Text(
+                      currentChallenge == null
+                          ? currentPlayer.gender.icon
+                          : currentChallenge?.type == "truth"
+                              ? "❓"
+                              : "🏃",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 72,
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: currentChallenge == null
+                          ? CustomText(
+                              text: client.translate(
+                                "game.title",
+                                {
+                                  "player": currentPlayer.name,
+                                },
+                              ),
+                              color: Colors.white,
+                              textType: TextType.subtitle,
+                              client: client,
+                            )
+                          : RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                children: formatChallenge(),
+                              ),
+                            ),
+                    ),
+                    currentChallenge != null
+                        ? Column(
+                            children: [
+                              Button(
+                                text: timer == null && currentTimer != 0
+                                    ? client.translate("game.text.start_timer")
+                                    : client.translate("game.text.next"),
+                                onPressed: timer == null && currentTimer != 0
+                                    ? () {
                                         setState(() {
-                                          currentTimer--;
+                                          timer = Timer.periodic(
+                                              const Duration(seconds: 1),
+                                              (timer) {
+                                            if (currentTimer == 0) {
+                                              timer.cancel();
+                                            } else {
+                                              setState(() {
+                                                currentTimer--;
+                                              });
+                                            }
+                                          });
                                         });
                                       }
-                                    });
-                                  });
-                                }
-                              : () {
-                                  setState(() {
-                                    currentPlayerIndex++;
+                                    : () {
+                                        setState(() {
+                                          currentPlayerIndex++;
 
-                                    if (currentPlayerIndex == players.length) {
-                                      currentPlayerIndex = 0;
-                                    }
+                                          if (currentPlayerIndex ==
+                                              players.length) {
+                                            currentPlayerIndex = 0;
+                                          }
 
-                                    currentPlayer = players[currentPlayerIndex];
-                                    currentChallenge = null;
-                                    currentTimer = 0;
-                                    timer?.cancel();
-                                    timer = null;
-                                  });
+                                          currentPlayer =
+                                              players[currentPlayerIndex];
+                                          currentChallenge = null;
+                                          currentTimer = 0;
+                                          timer?.cancel();
+                                          timer = null;
+                                        });
+                                      },
+                                client: client,
+                              ),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              Button(
+                                text: client.translate("game.text.truth"),
+                                onPressed: () {
+                                  if (truths.isEmpty) {
+                                    addTruthToQueue();
+                                  }
+
+                                  findNewChallenge(truths);
                                 },
-                          client: client,
-                        ),
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        Button(
-                          text: client.translate("game.text.truth"),
-                          onPressed: () {
-                            if (truths.isEmpty) {
-                              addTruthToQueue();
-                            }
+                                client: client,
+                                isBlack: false,
+                              ),
+                              Button(
+                                text: client.translate("game.text.dare"),
+                                onPressed: () {
+                                  if (dares.isEmpty) {
+                                    addDareToQueue();
+                                  }
 
-                            findNewChallenge(truths);
-                          },
-                          client: client,
-                          isBlack: false,
-                        ),
-                        Button(
-                          text: client.translate("game.text.dare"),
-                          onPressed: () {
-                            if (dares.isEmpty) {
-                              addDareToQueue();
-                            }
-
-                            findNewChallenge(dares);
-                          },
-                          client: client,
-                        ),
-                      ],
-                    ),
-              Container(),
-            ],
-          ),
+                                  findNewChallenge(dares);
+                                },
+                                client: client,
+                              ),
+                            ],
+                          ),
+                    Container(),
+                  ],
+                ),
         ),
       ),
     );
@@ -457,7 +505,47 @@ class _GamePageState extends State<GamePage> {
         setState(() {
           currentChallenge = Challenge.getEmptyChallenge();
 
-          // TODO: Add a message to the user that no suitable challenge was found
+          showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: CustomText(
+                client: client,
+                text: client.translate(
+                  "game.no_challenge.title",
+                ),
+                textType: TextType.subtitle,
+              ),
+              content: CustomText(
+                client: client,
+                text: client.translate(
+                  "game.no_challenge.content",
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => HomePage(
+                          client: client,
+                        ),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
+                  },
+                  child: CustomText(
+                    client: client,
+                    text: client.translate(
+                      "game.no_challenge.leave",
+                    ),
+                    color: Colors.red,
+                    textType: TextType.emphasis,
+                  ),
+                ),
+              ],
+            ),
+          );
         });
       }
       return;

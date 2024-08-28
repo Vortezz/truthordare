@@ -31,6 +31,7 @@ class _CustomChallengePageState extends State<CustomChallengePage> {
     super.initState();
 
     client.on("reloadCustomChallenges", (state) {
+      print("here");
       setState(() {
         longPressedModeEnabled = false;
         selectedChallenges = [];
@@ -330,7 +331,7 @@ class _CustomChallengePageState extends State<CustomChallengePage> {
                                   .challengeCategories[challenge.category]!;
 
                               return ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   if (longPressedModeEnabled) {
                                     setState(() {
                                       if (selectedChallenges
@@ -345,7 +346,7 @@ class _CustomChallengePageState extends State<CustomChallengePage> {
                                       }
                                     });
                                   } else {
-                                    Navigator.of(context).push(
+                                    await Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) {
                                           return AddChallengePage(
@@ -355,6 +356,8 @@ class _CustomChallengePageState extends State<CustomChallengePage> {
                                         },
                                       ),
                                     );
+
+                                    setState(() {});
                                   }
                                 },
                                 onLongPress: () {

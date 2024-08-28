@@ -7,10 +7,16 @@
   "game.text.truth": "Truth!",
   "game.text.next": "Next",
   "game.text.start_timer": "Start timer",
+  "game.consent.title": "Consent warning",
+  "game.consent.description": "During the whole game you have to respect all players consent. You're not forced to do any challenges, and you can skip if you want to! Play safe to have the best time together! Have a good game :)",
+  "game.consent.play": "Play",
   "game.quit.cancel": "Cancel",
   "game.quit.leave": "Leave",
   "game.quit.title": "Leave the game?",
   "game.quit.content": "Leaving the game now will remove all players and reset challenges, are you sure that you want to continue?",
+  "game.no_challenge.leave": "Leave",
+  "game.no_challenge.title": "No challenge found",
+  "game.no_challenge.content": "After multiple attempts, no suitable challenge have been found, the best solution for that issue is to restart a game. If it occurs again please contact us!",
   "gender.male": "Male",
   "gender.female": "Female",
   "gender.other": "Other",
@@ -81,5 +87,7 @@
   "add_challenge.timer": "Timer",
   "add_challenge.timer_hint": "Timer in seconds",
   "add_challenge.add": "Add",
-  "add_challenge.update": "Update"
+  "add_challenge.update": "Update",
+  "about.title": "About",
+  "about.description": "This application was created by Vortezz and is open-source. You can find the source code by clicking on the button below. The terms of use and privacy policy are available by clicking on the links below and are the same as the vortezz.dev website. Finally you can suggest new challenges by clicking on the Plus below!"
 }

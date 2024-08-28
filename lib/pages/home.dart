@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:truthordare/component/text.dart';
+import 'package:truthordare/pages/about.dart';
 import 'package:truthordare/pages/custom_challenge.dart';
 import 'package:truthordare/pages/player_selection.dart';
 import 'package:truthordare/pages/settings.dart';
+import 'package:truthordare/struct/challenge.dart';
 import 'package:truthordare/struct/client.dart';
 import 'package:truthordare/struct/hexcolor.dart';
 
@@ -31,6 +33,10 @@ class _HomePageState extends State<HomePage> {
     client.on("loaded", (state) {
       setState(() {});
     });
+
+    client.on("reloadCustomChallenges", (state) {
+      setState(() {});
+    });
   }
 
   @override
@@ -43,11 +49,32 @@ class _HomePageState extends State<HomePage> {
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
+        title: Row(
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.question_mark_rounded,
+                color: Colors.white,
+              ),
+              tooltip: client.translate("about.title"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => AboutPage(
+                      client: client,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (BuildContext context) {
                   return SettingsPage(
@@ -55,6 +82,8 @@ class _HomePageState extends State<HomePage> {
                   );
                 }),
               );
+
+              setState(() {});
             },
           ),
         ],
@@ -105,8 +134,19 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.all(0),
                           itemCount: client.categories.length,
                           itemBuilder: (context, index) {
+                            String categoryId = client.categories[index].id;
+                            List<Challenge> challenges =
+                                client.getChallengesInCategory(categoryId);
+
+                            if (categoryId == "custom") {
+                              challenges.add(Challenge.getEmptyChallenge());
+                            }
+
+                            bool isEmpty = challenges.isEmpty;
                             return Card(
-                              color: Colors.white,
+                              color: isEmpty
+                                  ? Colors.white.withOpacity(0.7)
+                                  : Colors.white,
                               margin: const EdgeInsets.only(
                                 bottom: 20,
                               ),
@@ -125,40 +165,62 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 ),
-                                title: CustomText(
-                                  text: client.translate(
-                                      "category.${client.categories[index].id}.name"),
-                                  client: client,
-                                  textType: TextType.emphasis,
-                                  color:
-                                      HexColor(client.categories[index].color),
-                                  textAlign: TextAlign.left,
+                                title: Row(
+                                  children: [
+                                    CustomText(
+                                      text: client.translate(
+                                          "category.${categoryId}.name"),
+                                      client: client,
+                                      textType: TextType.emphasis,
+                                      color: HexColor(
+                                          client.categories[index].color),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    if (isEmpty)
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                    if (isEmpty)
+                                      CustomText(
+                                        text: client.translate("SOON"),
+                                        client: client,
+                                        textType: TextType.emphasis,
+                                        color: Colors.red,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                  ],
                                 ),
                                 subtitle: CustomText(
                                   text: client.translate(
-                                      "category.${client.categories[index].id}.description"),
+                                      "category.${categoryId}.description"),
                                   client: client,
                                   textType: TextType.text,
                                   color: Colors.black,
                                   textAlign: TextAlign.left,
                                 ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          index == client.categories.length - 1
-                                              ? CustomChallengePage(
-                                                  client: client,
-                                                )
-                                              : PlayerSelectionPage(
-                                                  client: client,
-                                                  category: client
-                                                      .categories[index].id,
-                                                ),
-                                    ),
-                                  );
-                                },
+                                onTap: isEmpty
+                                    ? null
+                                    : () async {
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                index ==
+                                                        client.categories
+                                                                .length -
+                                                            1
+                                                    ? CustomChallengePage(
+                                                        client: client,
+                                                      )
+                                                    : PlayerSelectionPage(
+                                                        client: client,
+                                                        category: categoryId,
+                                                      ),
+                                          ),
+                                        );
+
+                                        setState(() {});
+                                      },
                               ),
                             );
                           },
