@@ -61,9 +61,10 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) => AboutPage(
-                      client: client,
-                    ),
+                    builder: (BuildContext context) =>
+                        AboutPage(
+                          client: client,
+                        ),
                   ),
                 );
               },
@@ -92,7 +93,10 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         padding: EdgeInsets.only(
           top: AppBar().preferredSize.height +
-              MediaQuery.of(context).viewPadding.top,
+              MediaQuery
+                  .of(context)
+                  .viewPadding
+                  .top,
           left: 10,
           right: 10,
         ),
@@ -125,110 +129,110 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: client.loaded
                     ? Container(
+                  margin: const EdgeInsets.only(
+                    top: 20,
+                    left: 20,
+                    right: 20,
+                  ),
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(0),
+                    itemCount: client.categories.length,
+                    itemBuilder: (context, index) {
+                      String categoryId = client.categories[index].id;
+                      List<Challenge> challenges =
+                      client.getChallengesInCategory(categoryId);
+
+                      if (categoryId == "custom") {
+                        challenges.add(Challenge.getEmptyChallenge());
+                      }
+
+                      bool isEmpty = challenges.isEmpty;
+                      return Card(
+                        color: isEmpty
+                            ? Colors.white.withOpacity(0.7)
+                            : Colors.white,
                         margin: const EdgeInsets.only(
-                          top: 20,
-                          left: 20,
-                          right: 20,
+                          bottom: 20,
                         ),
-                        child: ListView.builder(
-                          padding: const EdgeInsets.all(0),
-                          itemCount: client.categories.length,
-                          itemBuilder: (context, index) {
-                            String categoryId = client.categories[index].id;
-                            List<Challenge> challenges =
-                                client.getChallengesInCategory(categoryId);
-
-                            if (categoryId == "custom") {
-                              challenges.add(Challenge.getEmptyChallenge());
-                            }
-
-                            bool isEmpty = challenges.isEmpty;
-                            return Card(
-                              color: isEmpty
-                                  ? Colors.white.withOpacity(0.7)
-                                  : Colors.white,
-                              margin: const EdgeInsets.only(
-                                bottom: 20,
+                        child: ListTile(
+                          titleAlignment: ListTileTitleAlignment.center,
+                          isThreeLine: true,
+                          leading: Container(
+                            width: 76,
+                            height: 76,
+                            child: Center(
+                              child: Text(
+                                client.categories[index].icon,
+                                style: const TextStyle(
+                                  fontSize: 36,
+                                ),
                               ),
-                              child: ListTile(
-                                titleAlignment: ListTileTitleAlignment.center,
-                                isThreeLine: true,
-                                leading: Container(
-                                  width: 76,
-                                  height: 76,
-                                  child: Center(
-                                    child: Text(
-                                      client.categories[index].icon,
-                                      style: const TextStyle(
-                                        fontSize: 36,
-                                      ),
-                                    ),
-                                  ),
+                            ),
+                          ),
+                          title: Row(
+                            children: [
+                              CustomText(
+                                text: client.translate(
+                                    "category.${categoryId}.name"),
+                                client: client,
+                                textType: TextType.emphasis,
+                                color: HexColor(
+                                    client.categories[index].color),
+                                textAlign: TextAlign.left,
+                              ),
+                              if (isEmpty)
+                                SizedBox(
+                                  width: 10,
                                 ),
-                                title: Row(
-                                  children: [
-                                    CustomText(
-                                      text: client.translate(
-                                          "category.${categoryId}.name"),
-                                      client: client,
-                                      textType: TextType.emphasis,
-                                      color: HexColor(
-                                          client.categories[index].color),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    if (isEmpty)
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                    if (isEmpty)
-                                      CustomText(
-                                        text: client.translate("SOON"),
-                                        client: client,
-                                        textType: TextType.emphasis,
-                                        color: Colors.red,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                  ],
-                                ),
-                                subtitle: CustomText(
-                                  text: client.translate(
-                                      "category.${categoryId}.description"),
+                              if (isEmpty)
+                                CustomText(
+                                  text: client.translate("SOON"),
                                   client: client,
-                                  textType: TextType.text,
-                                  color: Colors.black,
+                                  textType: TextType.emphasis,
+                                  color: Colors.red,
                                   textAlign: TextAlign.left,
                                 ),
-                                onTap: isEmpty
+                            ],
+                          ),
+                          subtitle: CustomText(
+                            text: client.translate(
+                                "category.${categoryId}.description"),
+                            client: client,
+                            textType: TextType.text,
+                            color: Colors.black,
+                            textAlign: TextAlign.left,
+                          ),
+                          onTap: /* TODO: Remove this comment isEmpty
                                     ? null
-                                    : () async {
-                                        await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                index ==
-                                                        client.categories
-                                                                .length -
-                                                            1
-                                                    ? CustomChallengePage(
-                                                        client: client,
-                                                      )
-                                                    : PlayerSelectionPage(
-                                                        client: client,
-                                                        category: categoryId,
-                                                      ),
-                                          ),
-                                        );
-
-                                        setState(() {});
-                                      },
+                                    :*/ () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                index ==
+                                    client.categories
+                                        .length -
+                                        1
+                                    ? CustomChallengePage(
+                                  client: client,
+                                )
+                                    : PlayerSelectionPage(
+                                  client: client,
+                                  category: categoryId,
+                                ),
                               ),
                             );
+
+                            setState(() {});
                           },
                         ),
-                      )
+                      );
+                    },
+                  ),
+                )
                     : const Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                  child: CircularProgressIndicator(),
+                ),
               ),
             ],
           ),

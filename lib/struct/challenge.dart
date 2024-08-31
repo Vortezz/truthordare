@@ -7,9 +7,9 @@ class Challenge {
     required this.category,
     required this.type,
     required this.timer,
-    required this.suitableForMan,
-    required this.suitableForWoman,
-    required this.suitableForOther,
+    required this.suitableFor,
+    required this.interestedBy,
+    required this.isSexual,
   });
 
   final int id;
@@ -17,9 +17,9 @@ class Challenge {
   final String category;
   final String type;
   final int timer;
-  final bool suitableForMan;
-  final bool suitableForWoman;
-  final bool suitableForOther;
+  final List<int> suitableFor;
+  final List<int> interestedBy;
+  final bool isSexual;
 
   int otherPlayersNeeded = 0;
   int manPlayersNeeded = 0;
@@ -40,9 +40,13 @@ class Challenge {
         category: json['category'] as String,
         type: json['type'] as String,
         timer: json['timer'] as int,
-        suitableForMan: json['suitableForMan'] as bool,
-        suitableForWoman: json['suitableForWoman'] as bool,
-        suitableForOther: json['suitableForOther'] as bool,
+        suitableFor: (json['suitableFor'] as List<dynamic>)
+            .map((e) => e as int)
+            .toList(),
+        interestedBy: (json['interestedBy'] as List<dynamic>)
+            .map((e) => e as int)
+            .toList(),
+        isSexual: json['isSexual'] as bool,
       );
 
   Map<String, dynamic> toJson() => {
@@ -51,9 +55,9 @@ class Challenge {
         'category': category,
         'type': type,
         'timer': timer,
-        'suitableForMan': suitableForMan,
-        'suitableForWoman': suitableForWoman,
-        'suitableForOther': suitableForOther,
+        'suitableFor': suitableFor,
+        'interestedBy': interestedBy,
+        'isSexual': isSexual,
       };
 
   static Map<num, Challenge> fromJsonList(String challengesJson) {
@@ -92,9 +96,9 @@ class Challenge {
       category: "",
       type: "",
       timer: 0,
-      suitableForMan: false,
-      suitableForWoman: false,
-      suitableForOther: false,
+      suitableFor: [],
+      interestedBy: [],
+      isSexual: false,
     );
   }
 }

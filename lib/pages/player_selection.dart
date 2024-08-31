@@ -178,6 +178,7 @@ class _PlayerSelectionPageState extends State<PlayerSelectionPage> {
                             MaterialPageRoute(
                               builder: (context) => AddPlayerPage(
                                 client: client,
+                                category: category,
                                 onAddPlayer: (Player player) {
                                   if (players.map((e) => e.name).contains(player.name)) {
                                     return false;

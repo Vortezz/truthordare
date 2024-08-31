@@ -1,6 +1,6 @@
+import base64
 import csv
 import json
-import base64
 
 csv_file_path = 'input.csv'
 
@@ -10,6 +10,24 @@ with open(csv_file_path, mode='r', encoding='utf-8') as file:
     json_data = []
 
     for idx, row in enumerate(csv_reader):
+        suitableFor = []
+
+        if bool(int(row["For Men"])):
+            suitableFor += [0]
+        if bool(int(row["For Women"])):
+            suitableFor += [1]
+        if bool(int(row["For Others"])):
+            suitableFor += [2]
+
+        interestedBy = []
+
+        if bool(int(row["Interested Men"])):
+            interestedBy += [0]
+        if bool(int(row["Interested Women"])):
+            interestedBy += [1]
+        if bool(int(row["Interested Others"])):
+            interestedBy += [2]
+
         json_object = {
             "id": idx + 1,
             "descriptions": {
@@ -19,9 +37,9 @@ with open(csv_file_path, mode='r', encoding='utf-8') as file:
             "category": row["Category"],
             "type": row["Type"],
             "timer": int(row["Timer"]),
-            "suitableForMan": bool(int(row["For Men"])),
-            "suitableForWoman": bool(int(row["For Women"])),
-            "suitableForOther": bool(int(row["For Others"]))
+            "suitableFor": suitableFor,
+            "interestedBy": interestedBy,
+            "isSexual": bool(row["Sexual"]),
         }
 
         json_data.append(json_object)

@@ -37,7 +37,9 @@ class _AddChallengePageState extends State<AddChallengePage> {
   String type = "truth";
   String category = "chill";
   int timer = 0;
+  bool isSexual = false;
   List<Gender> suitableFor = [Gender.male, Gender.female, Gender.other];
+  List<Gender> interestedBy = [Gender.male, Gender.female, Gender.other];
 
   @override
   void initState() {
@@ -54,9 +56,9 @@ class _AddChallengePageState extends State<AddChallengePage> {
       timer = challenge.timer;
       _timerController.text = timer.toString();
       suitableFor = [
-        if (challenge.suitableForMan) Gender.male,
-        if (challenge.suitableForWoman) Gender.female,
-        if (challenge.suitableForOther) Gender.other,
+        if (challenge.suitableFor.contains(Gender.male.index)) Gender.male,
+        if (challenge.suitableFor.contains(Gender.female.index)) Gender.female,
+        if (challenge.suitableFor.contains(Gender.other.index)) Gender.other,
       ];
     }
     super.initState();
@@ -357,6 +359,82 @@ class _AddChallengePageState extends State<AddChallengePage> {
                       Container(
                         height: 20,
                       ),
+                      if (category == "extreme" || category == "hot")
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CustomText(
+                                text:
+                                    client.translate("add_challenge.is_sexual"),
+                                client: client,
+                                textType: TextType.emphasis,
+                                color: Colors.white,
+                                textAlign: TextAlign.center,
+                              ),
+                              Switch(
+                                value: isSexual,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isSexual = value;
+                                  });
+                                },
+                                activeColor: Colors.green,
+                                activeTrackColor: Colors.white,
+                                inactiveThumbColor: Colors.grey,
+                                inactiveTrackColor: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ),
+                      if (category == "extreme" || category == "hot")
+                        Container(
+                          height: 20,
+                        ),
+                      if (isSexual)
+                        Container(
+                          margin: const EdgeInsets.only(
+                            bottom: 10,
+                          ),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: CustomText(
+                              text: client
+                                  .translate("add_challenge.interested_by"),
+                              client: client,
+                              textType: TextType.emphasis,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      if (isSexual)
+                        MultipleIconPicker(
+                          client: client,
+                          data: [
+                            MultipleIconPickerData(
+                                icon: Gender.male.icon,
+                                text: client.translate("gender.male")),
+                            MultipleIconPickerData(
+                                icon: Gender.female.icon,
+                                text: client.translate("gender.female")),
+                            MultipleIconPickerData(
+                                icon: Gender.other.icon,
+                                text: client.translate("gender.other")),
+                          ],
+                          onPressed: (index) {
+                            setState(() {
+                              interestedBy =
+                                  index.map((e) => Gender.values[e]).toList();
+                            });
+                          },
+                          value: interestedBy.map((e) => e.index).toList(),
+                        ),
+                      if (isSexual)
+                        Container(
+                          height: 20,
+                        ),
                     ],
                   ),
                 ),
@@ -373,17 +451,18 @@ class _AddChallengePageState extends State<AddChallengePage> {
                       FocusManager.instance.primaryFocus?.unfocus();
 
                       Challenge challenge = Challenge(
-                          id: widget.challenge?.id ??
-                              client.getNextCustomChallengeId(),
-                          descriptions: {
-                            "custom": text,
-                          },
-                          type: type,
-                          category: category,
-                          timer: timer,
-                          suitableForMan: suitableFor.contains(Gender.male),
-                          suitableForWoman: suitableFor.contains(Gender.female),
-                          suitableForOther: suitableFor.contains(Gender.other));
+                        id: widget.challenge?.id ??
+                            client.getNextCustomChallengeId(),
+                        descriptions: {
+                          "custom": text,
+                        },
+                        type: type,
+                        category: category,
+                        timer: timer,
+                        suitableFor: suitableFor.map((e) => e.index).toList(),
+                        interestedBy: interestedBy.map((e) => e.index).toList(),
+                        isSexual: isSexual,
+                      );
 
                       if (widget.challenge != null) {
                         client.replaceCustomChallenge(challenge);

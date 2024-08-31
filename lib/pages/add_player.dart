@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:truthordare/component/button.dart';
 import 'package:truthordare/component/icon_picker.dart';
+import 'package:truthordare/component/multiple_icon_picker.dart';
 import 'package:truthordare/component/text.dart';
 import 'package:truthordare/struct/client.dart';
 import 'package:truthordare/struct/gender.dart';
 import 'package:truthordare/struct/player.dart';
 
 class AddPlayerPage extends StatefulWidget {
-  const AddPlayerPage(
-      {super.key, required this.client, required this.onAddPlayer});
+  const AddPlayerPage({
+    super.key,
+    required this.client,
+    required this.onAddPlayer,
+    required this.category,
+  });
 
   final Client client;
+  final String category;
   final Function(Player) onAddPlayer;
 
   @override
@@ -20,14 +26,18 @@ class AddPlayerPage extends StatefulWidget {
 class _AddPlayerPageState extends State<AddPlayerPage> {
   late Client client;
   late TextEditingController _controller;
+  late String category;
 
   String name = "";
   Gender gender = Gender.other;
+  List<Gender> interestedBy = [Gender.male, Gender.female, Gender.other];
 
   @override
   void initState() {
     client = widget.client;
+    category = widget.category;
     _controller = TextEditingController();
+    setState(() {});
     super.initState();
   }
 
@@ -152,6 +162,44 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
                       },
                       value: gender.index,
                     ),
+                    if (category == "extreme" || category == "hot")
+                      Container(
+                        margin: const EdgeInsets.only(
+                          top: 30,
+                          bottom: 10,
+                        ),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: CustomText(
+                            text: client.translate("add_player.interested_by"),
+                            client: client,
+                            textType: TextType.emphasis,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    if (category == "extreme" || category == "hot")
+                      MultipleIconPicker(
+                        client: client,
+                        data: [
+                          MultipleIconPickerData(
+                              icon: Gender.male.icon,
+                              text: client.translate("gender.male")),
+                          MultipleIconPickerData(
+                              icon: Gender.female.icon,
+                              text: client.translate("gender.female")),
+                          MultipleIconPickerData(
+                              icon: Gender.other.icon,
+                              text: client.translate("gender.other")),
+                        ],
+                        onPressed: (index) {
+                          setState(() {
+                            interestedBy =
+                                index.map((e) => Gender.values[e]).toList();
+                          });
+                        },
+                        value: interestedBy.map((e) => e.index).toList(),
+                      ),
                   ],
                 ),
               ),
@@ -169,6 +217,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
                       Player(
                         name: _controller.text,
                         gender: gender,
+                        interestedBy: interestedBy.map((e) => e.index).toList(),
                       ),
                     );
 
