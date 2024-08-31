@@ -21,12 +21,16 @@ with open(csv_file_path, mode='r', encoding='utf-8') as file:
 
         interestedBy = []
 
-        if bool(int(row["Interested Men"])):
-            interestedBy += [0]
-        if bool(int(row["Interested Women"])):
-            interestedBy += [1]
-        if bool(int(row["Interested Others"])):
-            interestedBy += [2]
+        if "{OO}" in row["English"]:
+            interestedBy += [0, 1, 2]
+        else:
+            if "{OM}" in row["English"]:
+                interestedBy += [0]
+            if "{OF}" in row["English"]:
+                interestedBy += [1]
+
+        if not interestedBy:
+            interestedBy = [0, 1, 2]
 
         json_object = {
             "id": idx + 1,
@@ -39,7 +43,7 @@ with open(csv_file_path, mode='r', encoding='utf-8') as file:
             "timer": int(row["Timer"]),
             "suitableFor": suitableFor,
             "interestedBy": interestedBy,
-            "isSexual": bool(row["Sexual"]),
+            "isSexual": bool(int(row["Sexual"])),
         }
 
         json_data.append(json_object)

@@ -162,7 +162,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
                       },
                       value: gender.index,
                     ),
-                    if (category == "extreme" || category == "hot")
+                    if (category == "extreme")
                       Container(
                         margin: const EdgeInsets.only(
                           top: 30,
@@ -178,7 +178,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
                           ),
                         ),
                       ),
-                    if (category == "extreme" || category == "hot")
+                    if (category == "extreme")
                       MultipleIconPicker(
                         client: client,
                         data: [
