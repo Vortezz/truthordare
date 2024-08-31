@@ -76,6 +76,42 @@ class _PlayerSelectionPageState extends State<PlayerSelectionPage> {
                     textType: TextType.title,
                     color: Colors.white,
                   ),
+                  if (category == "extreme")
+                    Card(
+                      color: Colors.yellowAccent.withOpacity(0.9),
+                      elevation: 0,
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.warning_rounded,
+                                  color: Colors.black,
+                                  size: 36,
+                                ),
+                                CustomText(
+                                  text: client.translate(
+                                      "player_selection.warning_sexual_content.title"),
+                                  client: client,
+                                  textType: TextType.emphasis,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
+                            CustomText(
+                              text: client.translate(
+                                  "player_selection.warning_sexual_content.description"),
+                              client: client,
+                              textType: TextType.text,
+                              color: Colors.black,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   players.isEmpty
                       ? Container(
                           margin: const EdgeInsets.only(
@@ -110,7 +146,8 @@ class _PlayerSelectionPageState extends State<PlayerSelectionPage> {
                             bottom: 20,
                           ),
                           width: MediaQuery.of(context).size.width * 0.8,
-                          height: MediaQuery.of(context).size.height * 0.5,
+                          height: MediaQuery.of(context).size.height *
+                              (category == "extreme" ? 0.3 : 0.5),
                           child: ListView.builder(
                             padding: const EdgeInsets.all(0),
                             itemCount: players.length,
@@ -180,7 +217,9 @@ class _PlayerSelectionPageState extends State<PlayerSelectionPage> {
                                 client: client,
                                 category: category,
                                 onAddPlayer: (Player player) {
-                                  if (players.map((e) => e.name).contains(player.name)) {
+                                  if (players
+                                      .map((e) => e.name)
+                                      .contains(player.name)) {
                                     return false;
                                   }
 
