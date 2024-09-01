@@ -30,6 +30,8 @@
   "player_selection.no_player": "No players added",
   "player_selection.add_player": "Add a player",
   "player_selection.start_game": "Start game",
+  "player_selection.warning_sexual_content.title": "Sexual Content",
+  "player_selection.warning_sexual_content.description": "This category contains explicit sexual content. Please choose your playing partners carefully, and we recommend playing with a partner. Enjoy responsibly!",
   "add_player.already_exists": "This player already exists",
   "category.friends.name": "Friends",
   "category.friends.description": "Just for fun with your friends",

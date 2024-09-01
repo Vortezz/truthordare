@@ -39,7 +39,6 @@ class _AddChallengePageState extends State<AddChallengePage> {
   int timer = 0;
   bool isSexual = false;
   List<Gender> suitableFor = [Gender.male, Gender.female, Gender.other];
-  List<Gender> interestedBy = [Gender.male, Gender.female, Gender.other];
 
   @override
   void initState() {
@@ -359,7 +358,7 @@ class _AddChallengePageState extends State<AddChallengePage> {
                       Container(
                         height: 20,
                       ),
-                      if (category == "extreme" || category == "hot")
+                      if (category == "extreme")
                         Container(
                           width: MediaQuery.of(context).size.width * 0.9,
                           child: Row(
@@ -389,49 +388,7 @@ class _AddChallengePageState extends State<AddChallengePage> {
                             ],
                           ),
                         ),
-                      if (category == "extreme" || category == "hot")
-                        Container(
-                          height: 20,
-                        ),
-                      if (isSexual)
-                        Container(
-                          margin: const EdgeInsets.only(
-                            bottom: 10,
-                          ),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: CustomText(
-                              text: client
-                                  .translate("add_challenge.interested_by"),
-                              client: client,
-                              textType: TextType.emphasis,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      if (isSexual)
-                        MultipleIconPicker(
-                          client: client,
-                          data: [
-                            MultipleIconPickerData(
-                                icon: Gender.male.icon,
-                                text: client.translate("gender.male")),
-                            MultipleIconPickerData(
-                                icon: Gender.female.icon,
-                                text: client.translate("gender.female")),
-                            MultipleIconPickerData(
-                                icon: Gender.other.icon,
-                                text: client.translate("gender.other")),
-                          ],
-                          onPressed: (index) {
-                            setState(() {
-                              interestedBy =
-                                  index.map((e) => Gender.values[e]).toList();
-                            });
-                          },
-                          value: interestedBy.map((e) => e.index).toList(),
-                        ),
-                      if (isSexual)
+                      if (category == "extreme")
                         Container(
                           height: 20,
                         ),
@@ -450,6 +407,23 @@ class _AddChallengePageState extends State<AddChallengePage> {
                     onPressed: () {
                       FocusManager.instance.primaryFocus?.unfocus();
 
+                      List<int> isInterested = [];
+
+                      if (text.contains("{OO}")) {
+                        isInterested = [0, 1, 2];
+                      } else {
+                        if (text.contains("{OM}")) {
+                          isInterested += [0];
+                        }
+                        if (text.contains("{OF}")) {
+                          isInterested += [1];
+                        }
+                      }
+
+                      if (isInterested.isEmpty) {
+                        isInterested = [0, 1, 2];
+                      }
+
                       Challenge challenge = Challenge(
                         id: widget.challenge?.id ??
                             client.getNextCustomChallengeId(),
@@ -460,7 +434,7 @@ class _AddChallengePageState extends State<AddChallengePage> {
                         category: category,
                         timer: timer,
                         suitableFor: suitableFor.map((e) => e.index).toList(),
-                        interestedBy: interestedBy.map((e) => e.index).toList(),
+                        interestedBy: isInterested,
                         isSexual: isSexual,
                       );
 

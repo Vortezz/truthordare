@@ -2,7 +2,7 @@ name: truthordare
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.1.1
+version: 1.2.0
 
 environment:
   sdk: '>=3.4.4 <4.0.0'
