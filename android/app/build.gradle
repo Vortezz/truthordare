@@ -30,9 +30,9 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "dev.vortezz.tord.truthordare"
+    namespace = "dev.vortezz.td"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = '25.1.8937393'
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -40,7 +40,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "dev.vortezz.tord.truthordare"
+        applicationId = "dev.vortezz.td"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdk = flutter.minSdkVersion
