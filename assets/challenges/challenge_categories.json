@@ -10,17 +10,5 @@
     "suitableForChildren": true,
     "icon": "\uD83D\uDC65",
     "color": "#FFA07A"
-  },
-  {
-    "id": "hot",
-    "suitableForChildren": false,
-    "icon": "🥵",
-    "color": "#FF6347"
-  },
-  {
-    "id": "extreme",
-    "suitableForChildren": false,
-    "icon": "😈",
-    "color": "#FF4500"
   }
 ]

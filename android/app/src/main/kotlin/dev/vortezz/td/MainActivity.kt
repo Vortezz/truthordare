@@ -1,4 +1,4 @@
-package dev.vortezz.tord.truthordare
+package dev.vortezz.td
 
 import io.flutter.embedding.android.FlutterActivity
 
