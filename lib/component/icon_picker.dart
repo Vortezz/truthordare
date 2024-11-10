@@ -31,8 +31,6 @@ class IconPicker extends StatelessWidget {
       child: Center(
         child: ListView.builder(
           shrinkWrap: true,
-          // physics: const NeverScrollableScrollPhysics(),
-          // Optional: disable internal scrolling if ListView is nested
           scrollDirection: Axis.horizontal,
           itemCount: data.length,
           itemBuilder: (context, index) {
