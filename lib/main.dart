@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:truthordare/pages/home.dart';
-import 'package:truthordare/struct/client.dart';
+import 'package:truthordare/struct/tord_client.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage(client: Client()),
+      home: HomePage(client: TordClient()),
     );
   }
 }

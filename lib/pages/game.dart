@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:truthordare/component/button.dart';
-import 'package:truthordare/component/text.dart';
+import 'package:flutter_vortezz_base/components/button.dart';
+import 'package:flutter_vortezz_base/components/text.dart';
 import 'package:truthordare/pages/home.dart';
 import 'package:truthordare/struct/challenge.dart';
-import 'package:truthordare/struct/client.dart';
 import 'package:truthordare/struct/gender.dart';
 import 'package:truthordare/struct/player.dart';
+import 'package:truthordare/struct/tord_client.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({
@@ -18,7 +18,7 @@ class GamePage extends StatefulWidget {
     required this.category,
   });
 
-  final Client client;
+  final TordClient client;
   final List<Player> players;
   final String category;
 
@@ -39,7 +39,7 @@ class _GamePageState extends State<GamePage> {
   Player? manOtherPlayer;
   Player? womanOtherPlayer;
 
-  late Client client;
+  late TordClient client;
   late String category;
   late List<Player> players;
   late Queue<Challenge> truths = Queue();

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:truthordare/component/button.dart';
-import 'package:truthordare/component/icon_picker.dart';
-import 'package:truthordare/component/multiple_icon_picker.dart';
-import 'package:truthordare/component/text.dart';
+import 'package:flutter_vortezz_base/components/button.dart';
+import 'package:flutter_vortezz_base/components/icon_picker.dart';
+import 'package:flutter_vortezz_base/components/multiple_icon_picker.dart';
+import 'package:flutter_vortezz_base/components/text.dart';
 import 'package:truthordare/struct/challenge.dart';
 import 'package:truthordare/struct/challenge_category.dart';
-import 'package:truthordare/struct/client.dart';
+import 'package:truthordare/struct/tord_client.dart';
 import 'package:truthordare/struct/gender.dart';
 
 class AddChallengePage extends StatefulWidget {
   const AddChallengePage({super.key, required this.client, this.challenge});
 
-  final Client client;
+  final TordClient client;
   final Challenge? challenge;
 
   @override
@@ -20,7 +20,7 @@ class AddChallengePage extends StatefulWidget {
 
 class _AddChallengePageState extends State<AddChallengePage> {
   final FocusNode _focusNode = FocusNode();
-  late Client client;
+  late TordClient client;
   late TextEditingController _textController;
   late TextEditingController _timerController;
 

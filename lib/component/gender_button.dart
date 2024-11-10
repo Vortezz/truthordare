@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:truthordare/component/text.dart';
-import 'package:truthordare/struct/client.dart';
+import 'package:flutter_vortezz_base/components/text.dart';
+import 'package:truthordare/struct/tord_client.dart';
 
 class GenderButton extends StatelessWidget {
   const GenderButton({
@@ -15,7 +15,7 @@ class GenderButton extends StatelessWidget {
   final String text;
   final String icon;
   final Function() onPressed;
-  final Client client;
+  final TordClient client;
   final bool isSelected;
 
   @override

@@ -171,6 +171,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_vortezz_base:
+    dependency: "direct main"
+    description:
+      path: "../flutter_vortezz_base"
+      relative: true
+    source: path
+    version: "0.0.1"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -324,10 +331,10 @@ packages:
     dependency: "direct main"
     description:
       name: shared_preferences
-      sha256: c272f9cabca5a81adc9b0894381e9c1def363e980f960fa903c604c471b22f68
+      sha256: "95f9997ca1fb9799d494d0cb2a780fd7be075818d59f00c43832ed112b158a82"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.1"
+    version: "2.3.3"
   shared_preferences_android:
     dependency: transitive
     description:

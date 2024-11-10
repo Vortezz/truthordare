@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:truthordare/component/button.dart';
-import 'package:truthordare/component/icon_picker.dart';
-import 'package:truthordare/component/text.dart';
-import 'package:truthordare/struct/client.dart';
-import 'package:truthordare/struct/language.dart';
+import 'package:flutter_vortezz_base/components/button.dart';
+import 'package:flutter_vortezz_base/components/icon_picker.dart';
+import 'package:flutter_vortezz_base/components/text.dart';
+import 'package:flutter_vortezz_base/struct/language.dart';
+import 'package:truthordare/struct/tord_client.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.client});
 
-  final Client client;
+  final TordClient client;
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  late Client client;
+  late TordClient client;
 
   Language language = Language.system;
   bool isDyslexicFont = false;

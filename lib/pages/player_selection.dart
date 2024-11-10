@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:truthordare/component/button.dart';
-import 'package:truthordare/component/text.dart';
+import 'package:flutter_vortezz_base/components/button.dart';
+import 'package:flutter_vortezz_base/components/text.dart';
 import 'package:truthordare/pages/add_player.dart';
 import 'package:truthordare/pages/game.dart';
-import 'package:truthordare/struct/client.dart';
+import 'package:truthordare/struct/tord_client.dart';
 import 'package:truthordare/struct/player.dart';
 
 class PlayerSelectionPage extends StatefulWidget {
@@ -13,7 +13,7 @@ class PlayerSelectionPage extends StatefulWidget {
     required this.category,
   });
 
-  final Client client;
+  final TordClient client;
   final String category;
 
   @override
@@ -21,7 +21,7 @@ class PlayerSelectionPage extends StatefulWidget {
 }
 
 class _PlayerSelectionPageState extends State<PlayerSelectionPage> {
-  late Client client;
+  late TordClient client;
   late String category;
 
   ScrollController _scrollController = ScrollController();
