@@ -107,6 +107,10 @@ class Client with EventEmitter {
       case "system":
         language = Language.system;
         _systemLanguage = SchedulerBinding.instance.window.locale.languageCode;
+
+        if (!translations.containsKey(_systemLanguage)) {
+          _systemLanguage = "en";
+        }
         break;
       case "en":
         language = Language.en;
@@ -120,6 +124,10 @@ class Client with EventEmitter {
       default:
         language = Language.system;
         _systemLanguage = SchedulerBinding.instance.window.locale.languageCode;
+
+        if (!translations.containsKey(_systemLanguage)) {
+          _systemLanguage = "en";
+        }
         preferences.setString("truthordare.language", "system");
         break;
     }
@@ -275,8 +283,6 @@ class Client with EventEmitter {
       return;
     }
 
-    print(directoryPath);
-
     final String filePath = '$directoryPath/custom_challenges.json';
 
     final File file = File(filePath);
@@ -293,8 +299,6 @@ class Client with EventEmitter {
     );
     final XFile? file =
         await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
-
-    print(file?.path);
 
     if (file == null) {
       emit("error", translate("custom_challenge.import_error"));

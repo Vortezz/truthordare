@@ -37,6 +37,7 @@ class _AddChallengePageState extends State<AddChallengePage> {
   String type = "truth";
   String category = "chill";
   int timer = 0;
+  bool isSexual = false;
   List<Gender> suitableFor = [Gender.male, Gender.female, Gender.other];
 
   @override
@@ -54,9 +55,9 @@ class _AddChallengePageState extends State<AddChallengePage> {
       timer = challenge.timer;
       _timerController.text = timer.toString();
       suitableFor = [
-        if (challenge.suitableForMan) Gender.male,
-        if (challenge.suitableForWoman) Gender.female,
-        if (challenge.suitableForOther) Gender.other,
+        if (challenge.suitableFor.contains(Gender.male.index)) Gender.male,
+        if (challenge.suitableFor.contains(Gender.female.index)) Gender.female,
+        if (challenge.suitableFor.contains(Gender.other.index)) Gender.other,
       ];
     }
     super.initState();
@@ -357,6 +358,40 @@ class _AddChallengePageState extends State<AddChallengePage> {
                       Container(
                         height: 20,
                       ),
+                      if (category == "extreme")
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CustomText(
+                                text:
+                                    client.translate("add_challenge.is_sexual"),
+                                client: client,
+                                textType: TextType.emphasis,
+                                color: Colors.white,
+                                textAlign: TextAlign.center,
+                              ),
+                              Switch(
+                                value: isSexual,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isSexual = value;
+                                  });
+                                },
+                                activeColor: Colors.green,
+                                activeTrackColor: Colors.white,
+                                inactiveThumbColor: Colors.grey,
+                                inactiveTrackColor: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ),
+                      if (category == "extreme")
+                        Container(
+                          height: 20,
+                        ),
                     ],
                   ),
                 ),
@@ -372,18 +407,36 @@ class _AddChallengePageState extends State<AddChallengePage> {
                     onPressed: () {
                       FocusManager.instance.primaryFocus?.unfocus();
 
+                      List<int> isInterested = [];
+
+                      if (text.contains("{OO}")) {
+                        isInterested = [0, 1, 2];
+                      } else {
+                        if (text.contains("{OM}")) {
+                          isInterested += [0];
+                        }
+                        if (text.contains("{OF}")) {
+                          isInterested += [1];
+                        }
+                      }
+
+                      if (isInterested.isEmpty) {
+                        isInterested = [0, 1, 2];
+                      }
+
                       Challenge challenge = Challenge(
-                          id: widget.challenge?.id ??
-                              client.getNextCustomChallengeId(),
-                          descriptions: {
-                            "custom": text,
-                          },
-                          type: type,
-                          category: category,
-                          timer: timer,
-                          suitableForMan: suitableFor.contains(Gender.male),
-                          suitableForWoman: suitableFor.contains(Gender.female),
-                          suitableForOther: suitableFor.contains(Gender.other));
+                        id: widget.challenge?.id ??
+                            client.getNextCustomChallengeId(),
+                        descriptions: {
+                          "custom": text,
+                        },
+                        type: type,
+                        category: category,
+                        timer: timer,
+                        suitableFor: suitableFor.map((e) => e.index).toList(),
+                        interestedBy: isInterested,
+                        isSexual: isSexual,
+                      );
 
                       if (widget.challenge != null) {
                         client.replaceCustomChallenge(challenge);

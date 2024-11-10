@@ -436,14 +436,26 @@ class _GamePageState extends State<GamePage> {
     otherPlayers.shuffle();
 
     int womanCount = 0;
+    int womanInterestedCount = 0;
     int manCount = 0;
+    int manInterestedCount = 0;
     int allCount = otherPlayers.length;
+    int allInterestedCount = otherPlayers
+        .where((player) =>
+            player.interestedBy.contains(currentPlayer.gender.index))
+        .length;
 
     for (Player player in otherPlayers) {
       if (player.gender == Gender.male) {
         manCount++;
+
+        if (player.interestedBy.contains(currentPlayer.gender.index))
+          manInterestedCount++;
       } else if (player.gender == Gender.female) {
         womanCount++;
+
+        if (player.interestedBy.contains(currentPlayer.gender.index))
+          womanCount++;
       }
     }
 
@@ -452,38 +464,34 @@ class _GamePageState extends State<GamePage> {
     while (challenge == null && challenges.isNotEmpty) {
       challenge = challenges.removeFirst();
 
-      if (!challenge.suitableForMan && currentPlayer.gender == Gender.male) {
+      if (!challenge.suitableFor.contains(currentPlayer.gender.index) ||
+          (challenge.isSexual &&
+              intersectList(challenge.interestedBy, currentPlayer.interestedBy)
+                  .isEmpty)) {
         notSuitableChallenges.add(challenge);
         challenge = null;
         continue;
       }
 
-      if (!challenge.suitableForWoman &&
-          currentPlayer.gender == Gender.female) {
+      if (challenge.manPlayersNeeded > manCount ||
+          (challenge.isSexual &&
+              challenge.manPlayersNeeded > manInterestedCount)) {
         notSuitableChallenges.add(challenge);
         challenge = null;
         continue;
       }
 
-      if (!challenge.suitableForOther && currentPlayer.gender == Gender.other) {
+      if (challenge.womanPlayersNeeded > womanCount ||
+          (challenge.isSexual &&
+              challenge.womanPlayersNeeded > womanInterestedCount)) {
         notSuitableChallenges.add(challenge);
         challenge = null;
         continue;
       }
 
-      if (challenge.manPlayersNeeded > manCount) {
-        notSuitableChallenges.add(challenge);
-        challenge = null;
-        continue;
-      }
-
-      if (challenge.womanPlayersNeeded > womanCount) {
-        notSuitableChallenges.add(challenge);
-        challenge = null;
-        continue;
-      }
-
-      if (challenge.otherPlayersNeeded > allCount) {
+      if (challenge.otherPlayersNeeded > allCount ||
+          (challenge.isSexual &&
+              challenge.otherPlayersNeeded > allInterestedCount)) {
         notSuitableChallenges.add(challenge);
         challenge = null;
         continue;
@@ -554,26 +562,40 @@ class _GamePageState extends State<GamePage> {
     setState(() {
       currentChallenge = challenge;
 
-      if (challenge?.timer != 0) {
-        currentTimer = challenge?.timer ?? 0;
+      if (challenge == null) {
+        return;
       }
 
-      if (challenge?.manPlayersNeeded != 0) {
+      if (challenge.timer != 0) {
+        currentTimer = challenge.timer;
+      }
+
+      if (challenge.manPlayersNeeded != 0) {
         manOtherPlayer = otherPlayers
+            .where((player) =>
+                !challenge!.isSexual ||
+                player.interestedBy.contains(currentPlayer.gender.index))
             .firstWhere(((Player player) => player.gender == Gender.male));
 
         otherPlayers.remove(manOtherPlayer);
       }
 
-      if (challenge?.womanPlayersNeeded != 0) {
+      if (challenge.womanPlayersNeeded != 0) {
         womanOtherPlayer = otherPlayers
+            .where((player) =>
+                !challenge!.isSexual ||
+                player.interestedBy.contains(currentPlayer.gender.index))
             .firstWhere(((Player player) => player.gender == Gender.female));
 
         otherPlayers.remove(womanOtherPlayer);
       }
 
-      if (challenge?.otherPlayersNeeded != 0) {
-        otherPlayer = otherPlayers.first;
+      if (challenge.otherPlayersNeeded != 0) {
+        otherPlayer = otherPlayers
+            .where((player) =>
+                !challenge!.isSexual ||
+                player.interestedBy.contains(currentPlayer.gender.index))
+            .first;
       }
     });
   }
@@ -612,5 +634,17 @@ class _GamePageState extends State<GamePage> {
         }
       }
     }
+  }
+
+  List<int> intersectList(List<int> lst1, List<int> lst2) {
+    List<int> result = [];
+
+    for (int elem in lst1) {
+      if (lst2.contains(elem)) {
+        result.add(elem);
+      }
+    }
+
+    return result;
   }
 }

@@ -25,10 +25,13 @@
   "add_player.gender": "Gender",
   "add_player.button": "Add",
   "add_player.hint": "Player name",
+  "add_player.interested_by": "Interested by",
   "player_selection.title": "Select the players",
   "player_selection.no_player": "No players added",
   "player_selection.add_player": "Add a player",
   "player_selection.start_game": "Start game",
+  "player_selection.warning_sexual_content.title": "Sexual Content",
+  "player_selection.warning_sexual_content.description": "This category contains explicit sexual content. Please choose your playing partners carefully, and we recommend playing with a partner. Enjoy responsibly!",
   "add_player.already_exists": "This player already exists",
   "category.friends.name": "Friends",
   "category.friends.description": "Just for fun with your friends",
@@ -89,6 +92,8 @@
   "add_challenge.timer_hint": "Timer in seconds",
   "add_challenge.add": "Add",
   "add_challenge.update": "Update",
+  "add_challenge.is_sexual": "Is sexual",
+  "add_challenge.interested_by": "Interested by",
   "about.title": "About",
   "about.description": "This application was created by Vortezz and is open-source. You can find the source code by clicking on the button below. The terms of use and privacy policy are available by clicking on the links below and are the same as the vortezz.dev website. Finally you can suggest new challenges by clicking on the Plus below!"
 }
