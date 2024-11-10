@@ -14,7 +14,8 @@ with open(csv_file_path, mode='r', encoding='utf-8') as file:
             "id": idx + 1,
             "descriptions": {
                 "en": row["English"],
-                "fr": row["French"]
+                "fr": row["French"],
+                "de": row["German"]
             },
             "category": row["Category"],
             "type": row["Type"],

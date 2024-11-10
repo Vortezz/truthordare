@@ -28,6 +28,7 @@ flutter:
     - assets/challenges/challenge_categories.json
     - assets/lang/en.json
     - assets/lang/fr.json
+    - assets/lang/de.json
   fonts:
     - family: OpenSans
       fonts:

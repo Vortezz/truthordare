@@ -112,6 +112,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       client: client,
                       data: [
                         IconPickerData(
+                          icon: "⚙️",
+                          text: client.translate("settings.system"),
+                        ),
+                        IconPickerData(
                           icon: "🇬🇧",
                           text: client.translate("language.english"),
                         ),
@@ -120,8 +124,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           text: client.translate("language.french"),
                         ),
                         IconPickerData(
-                          icon: "⚙️",
-                          text: client.translate("settings.system"),
+                          icon: "🇩🇪",
+                          text: client.translate("language.german"),
                         ),
                       ],
                       onPressed: (index) {
@@ -202,13 +206,16 @@ class _SettingsPageState extends State<SettingsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CustomText(
-                            text: client
-                                .translate("settings.only_custom_challenges"),
-                            client: client,
-                            textType: TextType.emphasis,
-                            color: Colors.white,
-                            textAlign: TextAlign.center,
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.9 - 70,
+                            child: CustomText(
+                              text: client
+                                  .translate("settings.only_custom_challenges"),
+                              client: client,
+                              textType: TextType.emphasis,
+                              color: Colors.white,
+                              textAlign: TextAlign.left,
+                            ),
                           ),
                           Switch(
                             value: isOnlyCustomChallenges,
