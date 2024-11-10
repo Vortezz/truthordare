@@ -63,7 +63,7 @@ class Client with EventEmitter {
   }
 
   Future<void> load() async {
-    for (String lang in ["en", "fr"]) {
+    for (String lang in ["en", "fr", "de"]) {
       String translationJson =
           await rootBundle.loadString("assets/lang/$lang.json");
 
@@ -117,6 +117,9 @@ class Client with EventEmitter {
         break;
       case "fr":
         language = Language.fr;
+        break;
+      case "de":
+        language = Language.de;
         break;
       default:
         language = Language.system;
@@ -176,6 +179,8 @@ class Client with EventEmitter {
         return "en";
       case Language.fr:
         return "fr";
+      case Language.de:
+        return "de";
       default:
         return _systemLanguage;
     }
