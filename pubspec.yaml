@@ -2,7 +2,7 @@ name: truthordare
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.0.1
+version: 1.2.1
 
 environment:
   sdk: '>=3.4.4 <4.0.0'
@@ -20,6 +20,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  change_app_package_name: ^1.4.0
 
 flutter:
   uses-material-design: true
