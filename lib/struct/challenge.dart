@@ -40,13 +40,13 @@ class Challenge {
         category: json['category'] as String,
         type: json['type'] as String,
         timer: json['timer'] as int,
-        suitableFor: (json['suitableFor'] as List<dynamic>)
+        suitableFor: ((json['suitableFor'] ?? []) as List<dynamic>)
             .map((e) => e as int)
             .toList(),
-        interestedBy: (json['interestedBy'] as List<dynamic>)
+        interestedBy: ((json['interestedBy'] ?? []) as List<dynamic>)
             .map((e) => e as int)
             .toList(),
-        isSexual: json['isSexual'] as bool,
+        isSexual: (json['isSexual'] ?? false) as bool,
       );
 
   Map<String, dynamic> toJson() => {

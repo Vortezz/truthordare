@@ -56,5 +56,8 @@ encoded_json = base64.b64encode(json_string.encode('utf-8')).decode('utf-8')
 with open('../assets/challenges/challenges.txt', 'w', encoding='utf-8') as output_file:
     output_file.write(encoded_json)
 
+with open('./challenges.json', 'w', encoding='utf-8') as output_file:
+    output_file.write(json_string)
+
 if __name__ == "__main__":
     pass
