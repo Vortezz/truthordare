@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:truthordare/component/button.dart';
-import 'package:truthordare/component/icon_picker.dart';
-import 'package:truthordare/component/multiple_icon_picker.dart';
-import 'package:truthordare/component/text.dart';
-import 'package:truthordare/struct/client.dart';
+import 'package:flutter_vortezz_base/components/button.dart';
+import 'package:flutter_vortezz_base/components/icon_picker.dart';
+import 'package:flutter_vortezz_base/components/multiple_icon_picker.dart';
+import 'package:flutter_vortezz_base/components/text.dart';
+import 'package:truthordare/struct/tord_client.dart';
 import 'package:truthordare/struct/gender.dart';
 import 'package:truthordare/struct/player.dart';
 
@@ -15,7 +15,7 @@ class AddPlayerPage extends StatefulWidget {
     required this.category,
   });
 
-  final Client client;
+  final TordClient client;
   final String category;
   final Function(Player) onAddPlayer;
 
@@ -24,7 +24,7 @@ class AddPlayerPage extends StatefulWidget {
 }
 
 class _AddPlayerPageState extends State<AddPlayerPage> {
-  late Client client;
+  late TordClient client;
   late TextEditingController _controller;
   late String category;
 

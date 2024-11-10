@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:truthordare/component/text.dart';
+import 'package:flutter_vortezz_base/components/text.dart';
 import 'package:truthordare/pages/about.dart';
 import 'package:truthordare/pages/custom_challenge.dart';
 import 'package:truthordare/pages/player_selection.dart';
 import 'package:truthordare/pages/settings.dart';
 import 'package:truthordare/struct/challenge.dart';
-import 'package:truthordare/struct/client.dart';
 import 'package:truthordare/struct/hexcolor.dart';
+import 'package:truthordare/struct/tord_client.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.client});
 
-  final Client client;
+  final TordClient client;
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late Client client;
+  late TordClient client;
 
   @override
   void initState() {

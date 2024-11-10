@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:truthordare/component/text.dart';
-import 'package:truthordare/struct/client.dart';
+import 'package:flutter_vortezz_base/components/text.dart';
+import 'package:truthordare/struct/tord_client.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({Key? key, required this.client}) : super(key: key);
 
-  final Client client;
+  final TordClient client;
 
   @override
   State<AboutPage> createState() => _AboutPageState();
 }
 
 class _AboutPageState extends State<AboutPage> {
-  late Client client;
+  late TordClient client;
 
   @override
   void initState() {

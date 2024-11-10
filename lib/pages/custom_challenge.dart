@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:truthordare/component/button.dart';
-import 'package:truthordare/component/text.dart';
+import 'package:flutter_vortezz_base/components/button.dart';
+import 'package:flutter_vortezz_base/components/text.dart';
 import 'package:truthordare/pages/add_challenge.dart';
 import 'package:truthordare/struct/challenge.dart';
 import 'package:truthordare/struct/challenge_category.dart';
-import 'package:truthordare/struct/client.dart';
+import 'package:truthordare/struct/tord_client.dart';
 
 class CustomChallengePage extends StatefulWidget {
   const CustomChallengePage({
@@ -12,14 +12,14 @@ class CustomChallengePage extends StatefulWidget {
     required this.client,
   });
 
-  final Client client;
+  final TordClient client;
 
   @override
   State<CustomChallengePage> createState() => _CustomChallengePageState();
 }
 
 class _CustomChallengePageState extends State<CustomChallengePage> {
-  late Client client;
+  late TordClient client;
   final ScrollController _scrollController = ScrollController();
 
   bool longPressedModeEnabled = false;
