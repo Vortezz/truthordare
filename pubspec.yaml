@@ -2,7 +2,7 @@ name: truthordare
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.2.3
+version: 1.2.4
 
 environment:
   sdk: '>=3.4.4 <4.0.0'
@@ -32,6 +32,7 @@ flutter:
     - assets/lang/en.json
     - assets/lang/fr.json
     - assets/lang/de.json
+    - assets/lang/es.json
   fonts:
     - family: OpenSans
       fonts:
