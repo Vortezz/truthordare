@@ -13,16 +13,6 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
-if (flutterVersionCode == null) {
-    flutterVersionCode = "10"
-}
-
-def flutterVersionName = localProperties.getProperty("flutter.versionName")
-if (flutterVersionName == null) {
-    flutterVersionName = "1.2.4"
-}
-
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
@@ -32,21 +22,21 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "dev.vortezz.td"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = '25.1.8937393'
+    ndkVersion "26.1.10909125"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = 21
+        targetCompatibility = 21
     }
 
     defaultConfig {
         applicationId = "dev.vortezz.td"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutterVersionCode.toInteger()
-        versionName = flutterVersionName
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion 35
+        versionCode 11
+        versionName "1.2.5"
     }
 
     signingConfigs {
